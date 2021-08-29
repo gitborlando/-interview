@@ -119,3 +119,19 @@ scheduler
   })
 
 scheduler.start()
+
+
+/**
+ * repeat(console.log, 4, 2000)
+ */
+function repeat(fn, time, delay){
+  return (arg) => {
+    for(let i = 0; i < time; i++){
+      setTimeout(() => {
+        fn(arg)
+      }, delay * (i + 1));
+   }
+  }
+}
+
+repeat(console.log, 4, 2000)('hello world')

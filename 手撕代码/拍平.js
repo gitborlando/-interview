@@ -45,4 +45,17 @@ const flat = (arr) => {
 
 console.log(flat(arr))
 
+/**
+ * concat法
+ */
+ const arr = [1, 2, 3, , '', [4, true], 6, [7, [() => console.log(8), 9]], 10]
+
+const flat = (arr) => {
+    while(arr.some((i) => Array.isArray(i))){
+        arr = [].concat(...arr)
+    }
+    return arr
+}
+
+flat(arr)[9]()
 

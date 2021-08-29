@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -23,8 +24,8 @@
     background-color: rgb(67, 255, 167);
   } */
 
-  
-  /* 两栏布局
+
+  /* 两栏布局 flex法
   .parent {
     width: 100vw;
     height: 500px;
@@ -42,12 +43,32 @@
     background-color: rgb(67, 255, 167);
   } */
 
+  /* 两栏布局 float法
+  .parent {
+    width: 100vw;
+    height: 500px;
+  }
+
+  .left {
+    width: 100px;
+    height: 100%;
+    float: left;
+    background-color: rgb(255, 96, 96);
+  }
+
+  .right {
+    width: 100%;
+    height: 100%;
+    margin-left: 100px;
+    background-color: rgb(67, 255, 167);
+  } */
 </style>
+
 <body>
 
   <!-- 判断颜色
   <div class="b a"></div> -->
-  
+
   <!-- 两栏布局
   <div class="parent">
     <div class="left"></div>
@@ -56,4 +77,19 @@
 
 
 </body>
+<script>
+
+var a = 100;
+function fn() {
+  var b = 30;
+  function bar() {
+      console.log(a + b);
+      console.log(this.b);
+  }
+  return bar;
+}
+var x = fn(),
+  b = 400;
+x();
+</script>
 </html>
