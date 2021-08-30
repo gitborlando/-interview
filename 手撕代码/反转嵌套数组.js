@@ -35,21 +35,3 @@ const fn = (arr) => {
 
 console.log(fn(arr))
 
-
-/**
- * 去重
- */
-const arr = [1, 1, true, true, () => {}, 'abc']
-
-const unique = (arr) => {
-  const set = new Set()
-  let cur
-  while(arr.length){
-    cur = arr.pop()
-    if(set.has(cur)) continue
-    set.add(cur)
-  }
-  return [...set]
-}
-
-console.log(unique(arr))
