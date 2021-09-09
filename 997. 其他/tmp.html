@@ -34,8 +34,8 @@
 </style>
 
 <body>
-    <div class="button"><span>按钮</span></div>
-    <video style="width: 500px;height: 500px;" src="" controls></video>
+    <!-- <div class="button"><span>按钮</span></div>
+    <video style="width: 500px;height: 500px;" src="" controls></video> -->
 </body>
 <script>
     // (()=>{
@@ -51,21 +51,90 @@
     //         v.onloadedmetadata = () => v.play()
     //     })
     // })()
-    var length = 10;
-    function fn() {
-        return this.length + 1;
+    // var length = 10;
+    // function fn() {
+    //     return this.length + 1;
+    // }
+    // var obj = {
+    //     length: 5,
+    //     test1: function () {
+    //         return fn();
+    //     }
+    // };
+    // obj.test2 = fn;
+    // console.log(obj.test1()); // 11
+    // console.log(this.length)
+    // console.log(fn()); // 11
+    // console.log(obj.test2()); // 6
+
+
+    const create = () => {
+        data.a.forEach(i => {
+            const p = document.createElement('p')
+            document.body.appendChild(p)
+            new manager(p).addValue(i).setValue((val) => (p.innerHTML = val))
+        })
     }
-    var obj = {
-        length: 5,
-        test1: function () {
-            return fn();
+    const addValue = (el, val) => {
+        el.innerHTML = val
+    }
+    const makeProxy = (data) => {
+        for (const key in data) {
+            console.log(data.hasOwnProperty(key), key)
+            if(!data.hasOwnProperty(key)) return
+            if (typeof data[key] === 'object') {
+                data[key] = makeProxy(data[key])
+            }
         }
-    };
-    obj.test2 = fn;
-    console.log(obj.test1()); // 11
-    console.log(this.length)
-    console.log(fn()); // 11
-    console.log(obj.test2()); // 6
+        const r = new Record()
+        return new Proxy(data, {
+            get(t, k, v) {
+                Record.tar && r.add(Record.tar)
+                console.log(t, k, v)
+                return t[k]
+            },
+            set(t, k, v) {
+                console.log(t, k, v)
+                r.notify(v)
+            }
+        })
+    }
+    class manager {
+        constructor(el) {
+            this.el = el
+            Record.tar = this
+        }
+        addValue(val) {
+            this.el.innerHTML = val
+            Record.tar = null
+            return this
+        }
+        setValue(cb) {
+            this.cb = cb
+        }
+        update(val) {
+            this.cb(val)
+        }
+    }
+    class Record {
+        constructor() {
+            this.set = []
+            this.tar = null
+        }
+        add(tar) {
+            this.set.push(tar)
+        }
+        notify(nVal) {
+            this.set.forEach(i => i.update(nVal))
+        }
+    }
+
+    const t = 'p {123}'
+    const data = makeProxy({
+        a: [123, 456]
+    })
+    create()
+    data.a[0]= 789
 </script>
 
 </html>
