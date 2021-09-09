@@ -8,9 +8,10 @@
     <title>Document</title>
 </head>
 <style>
-    *{
+    * {
         margin: 0;
     }
+
     .button {
         width: 50px;
         height: 50px;
@@ -22,31 +23,49 @@
         align-items: center;
         position: relative;
     }
+
     .button:hover {
         background-color: rgb(23, 212, 139);
     }
+
     .button:active {
         transform: translateY(5px);
     }
 </style>
+
 <body>
     <div class="button"><span>按钮</span></div>
     <video style="width: 500px;height: 500px;" src="" controls></video>
 </body>
 <script>
-    (()=>{
-        navigator.mediaDevices.getUserMedia({
-            audio: true,
-            video: {
-                width: '100%',
-                height: '100%'
-            }
-        }).then((s)=>{
-            const v = document.querySelector('video')
-            v.srcObject = s
-            v.onloadedmetadata = () => v.play()
-        })
-    })()
+    // (()=>{
+    //     navigator.mediaDevices.getUserMedia({
+    //         audio: true,
+    //         video: {
+    //             width: '100%',
+    //             height: '100%'
+    //         }
+    //     }).then((s)=>{
+    //         const v = document.querySelector('video')
+    //         v.srcObject = s
+    //         v.onloadedmetadata = () => v.play()
+    //     })
+    // })()
+    var length = 10;
+    function fn() {
+        return this.length + 1;
+    }
+    var obj = {
+        length: 5,
+        test1: function () {
+            return fn();
+        }
+    };
+    obj.test2 = fn;
+    console.log(obj.test1()); // 11
+    console.log(this.length)
+    console.log(fn()); // 11
+    console.log(obj.test2()); // 6
 </script>
 
 </html>
