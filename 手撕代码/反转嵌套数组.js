@@ -5,7 +5,7 @@
 const arr = [1, [2, [3, null]]]
 
 const fn = (arr) => {
-  const tmp = arr.toString().split(',').filter((i) => i !== '').sort((a, b) => b - a)
+  const tmp = arr.toString().split(',').filter(i => !!i).reverse()
   return (function add() {
     const res = []
     res.push(parseInt(tmp.shift()), tmp.length ? add() : null)
