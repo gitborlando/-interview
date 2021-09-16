@@ -52,3 +52,7 @@
 ### Same-Party
 
 https://blog.csdn.net/weixin_40906515/article/details/120030218
+
+这个属性的添加主要是因为现在各大浏览器都在禁用第三方 cookie, 然后会导致很多问题出现, 一个公司往往有很多业务, 然后这些业务都有不同的域名, 很多业务比如说单点登录, 就是我登录了 a 网站, 同时 b 网站我也登陆了, 那这就需要第三方 cookie 来实现
+
+有一个 First-Party-Sets 策略就提出说一个运营主体不同域名下的 cookie 也能共享, 然后 sameParty 就是配合这个 First-Party-Sets 来使用的, 所有开启了 First-Party-Sets 的域名下需要共享的 cookie 都要添加一个 sameParty 的属性, 这时我在一个域名里发送另一个域名的请求, 拿着另外一个域名的 cookie 也能被携带上

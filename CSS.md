@@ -59,5 +59,10 @@
 
 ### Position
 
+`sticky`: 
 
+1. 设置为 sticky 的元素在达到特定的阈值之前, 也就是top、bottom、left、right4个值的其中之一, 是相对定位, 达到这个阈值之后, 就是固定定位, 所以必须指定top、bottom、left、right4个值的其中之一，否则只会处于相对定位
+
+2. 父元素不能overflow:hidden或者overflow:auto属性
+3. sticky 只在其父元素内生效, 不管这个父元素有没有设置定位
 
