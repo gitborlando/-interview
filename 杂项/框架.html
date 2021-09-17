@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+
+<body>
+	<div class="main">
+		<p class="p">1234567</p>
+		<button onclick="alert('onclick')">click</button>
+	</div>
+	<div class="main2"></div>
+</body>
+<script>
+	const h = document.querySelector('.main').innerHTML
+
+	const vTree = ((function parse(html) {
+		const s = {
+			START_TAG_PARSING: 'is parsing the start "<>"',
+			END_TAG_PARSING: 'is parsing the end "</>"',
+		}
+		const last = (stack) => stack[stack.length - 1]
+		const stack = [{ tag: 'root', childrens: [] }]
+		let content = ''
+		let status = ''
+		html = html.replace(/\n/g, '')
+		for (let i = 0; i < html.length; i++) {
+			let currentChar = html.charAt(i)
+			let nextChar = html.charAt(i + 1)
+			if (currentChar === '<') {
+				if (/\S+/.test(content) && status === s.START_TAG_PARSING) {
+					last(stack).attrs.text = content.replace(/^\s*|\s*$/g, '')
+					content = ''
+				}
+				if (nextChar === '/') {
+					status = s.END_TAG_PARSING
+					stack.pop()
+				} else {
+					status = s.START_TAG_PARSING
+				}
+			} else if (currentChar === '>') {
+				if (status === s.START_TAG_PARSING) {
+					content = content.trim()
+					let tag = content.match(/^[a-zA-Z0-9]*\s*/)[0].replace(/\s/g, '')
+					let attributes = content.replace(tag, '').trim()
+					let sign = ''
+					let attributeObj = {}
+					let key = ''
+					let value = ''
+					for (let i = 0; i < attributes.length; i++) {
+						let curChar = attributes[i]
+						if (curChar === '=') {
+							key = sign.trim()
+							sign = ''
+							continue
+						} else if (curChar === '"') {
+							if (attributes[i - 1] !== '=') {
+								value = sign
+								sign = ''
+							}
+							attributeObj[key] = value
+							continue
+						} else {
+							sign += curChar
+						}
+					}
+					let nodeObj = { tag, attrs: attributeObj, childrens: [] }
+					last(stack).childrens.push(nodeObj)
+					stack.push(nodeObj)
+					content = ''
+				}
+				if (status === s.END_TAG_PARSING) {
+					content = ''
+				}
+			} else {
+				content = content + currentChar
+			}
+		}
+		return last(stack)
+	})(h))
+
+	console.log(vTree)
+
+	function createElement(tag, attr = {}){
+		const el = document.createElement(tag)
+		Object.entries(attr).forEach(([key, val]) => {
+			if(key === 'text') {
+				el.appendChild(document.createTextNode(val))
+				return true
+			}
+			el.setAttribute(key, val)
+		})
+		return el
+	}
+
+	function traverse(vNode){
+		const el = createElement(vNode.tag, vNode.attrs)
+		vNode.el = el
+		el.append(...vNode.childrens.map(children => traverse(children)))
+		return el
+	}
+
+	document.querySelector('.main2').appendChild(traverse((vTree)))
+
+
+</script>
+
+</html>
