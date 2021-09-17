@@ -1,0 +1,36 @@
+<body>
+  <div class="main">
+    <p>[a]</p>
+    [a === 3 && <span>if a === 3 show up!</span>]
+    <button onclick="[handlClick]">click</button>
+    [noMemo(<Children/>)]
+  </div>
+</body>
+
+<script id="s">
+  let a = 2
+
+  function handlClick(){
+    a = 3
+    console.log(a)
+  }
+
+  // makeEffect(() => document.title = a, [a])
+</script>
+
+<script>
+  console.log(s.innerHTML)
+  // const [get, set] = useStore(titleStore)
+</script>
+
+<style>
+  p {
+    color: rgb(255, 195, 127);
+  }
+</style>
+
+<script>
+  // export default App
+</script>
+
+

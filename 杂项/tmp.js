@@ -157,3 +157,10 @@ async1 end
 promise2
 setTimeout
  */
+
+//console.log(`function handlClick(){`.match(/function\s+\w+\s*\(/)[0].replace(/function\s/, '').replace(/\(/, ''))
+
+
+
+console.log(`const handleClick = () => {}`.match(/('const'|'var'|'let')\s+w+\s*\=\s*(.*)=>/))
+
