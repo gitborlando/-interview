@@ -114,95 +114,85 @@
     // console.log(obj.test2()); // 6
 
 
-    // const create = () => {
-    //     data.a.forEach(i => {
-    //         const p = document.createElement('p')
-    //         document.body.appendChild(p)
-    //         new manager(p).addValue(i).setValue((val) => (p.innerHTML = val))
-    //     })
-    // }
-    // const addValue = (el, val) => {
-    //     el.innerHTML = val
-    // }
-    // const makeProxy = (data) => {
-    //     for (const key in data) {
-    //         console.log(data.hasOwnProperty(key), key)
-    //         if (!data.hasOwnProperty(key)) return
-    //         if (typeof data[key] === 'object') {
-    //             data[key] = makeProxy(data[key])
-    //         }
-    //     }
-    //     const r = new Record()
-    //     return new Proxy(data, {
-    //         get(t, k, v) {
-    //             Record.tar && r.add(Record.tar)
-    //             console.log(t, k, v)
-    //             return t[k]
-    //         },
-    //         set(t, k, v) {
-    //             console.log(t, k, v)
-    //             r.notify(v)
-    //         }
-    //     })
-    // }
-    // class manager {
-    //     constructor(el) {
-    //         this.el = el
-    //         Record.tar = this
-    //     }
-    //     addValue(val) {
-    //         this.el.innerHTML = val
-    //         Record.tar = null
-    //         return this
-    //     }
-    //     setValue(cb) {
-    //         this.cb = cb
-    //     }
-    //     update(val) {
-    //         this.cb(val)
-    //     }
-    // }
-    // class Record {
-    //     constructor() {
-    //         this.set = []
-    //         this.tar = null
-    //     }
-    //     add(tar) {
-    //         this.set.push(tar)
-    //     }
-    //     notify(nVal) {
-    //         this.set.forEach(i => i.update(nVal))
-    //     }
-    // }
+    const create = () => {
+        data.a.forEach(i => {
+            const p = document.createElement('p')
+            document.body.appendChild(p)
+            new manager(p).addValue(i).setValue((val) => (p.innerHTML = val))
+        })
+    }
+    const addValue = (el, val) => {
+        el.innerHTML = val
+    }
+    const makeProxy = (data) => {
+        for (const key in data) {
+            console.log(data.hasOwnProperty(key), key)
+            if (!data.hasOwnProperty(key)) return
+            if (typeof data[key] === 'object') {
+                data[key] = makeProxy(data[key])
+            }
+        }
+        const r = new Record()
+        return new Proxy(data, {
+            get(t, k, v) {
+                Record.tar && r.add(Record.tar)
+                console.log(t, k, v)
+                return t[k]
+            },
+            set(t, k, v) {
+                console.log(t, k, v)
+                r.notify(v)
+            }
+        })
+    }
+    class manager {
+        constructor(el) {
+            this.el = el
+            Record.tar = this
+        }
+        addValue(val) {
+            this.el.innerHTML = val
+            Record.tar = null
+            return this
+        }
+        setValue(cb) {
+            this.cb = cb
+        }
+        update(val) {
+            this.cb(val)
+        }
+    }
+    class Record {
+        constructor() {
+            this.set = []
+            this.tar = null
+        }
+        add(tar) {
+            this.set.push(tar)
+        }
+        notify(nVal) {
+            this.set.forEach(i => i.update(nVal))
+        }
+    }
 
-    // const t = 'p {123}'
-    // const data = makeProxy({
-    //     a: [123, 456]
-    // })
-    // create()
-    // data.a[0] = 789
+    const t = 'p {123}'
+    const data = makeProxy({
+        a: [123, 456]
+    })
+    create()
+    data.a[0] = 789
 
-    // var a = 100;
-    // function fn() {
-    //     var b = 30;
-    //     function bar() {
-    //         console.log(a + b);
-    //         console.log(this.b);
-    //     }
-    //     return bar;
-    // }
-    // var x = fn(), b = 400;
-    // x();
-</script>
-<script src="https://unpkg.com/showdown/dist/showdown.min.js"></script>
-<script>
-    var converter = new showdown.Converter(),
-        text = "#### hello, markdown! " + 
-            "-   js",
-        html = converter.makeHtml(text);
-        
-        document.write(html)
-        console.log(showdown.getDefaultOptions())
+    var a = 100;
+    function fn() {
+        var b = 30;
+        function bar() {
+            console.log(a + b);
+            console.log(this.b);
+        }
+        return bar;
+    }
+    var x = fn(), b = 400;
+    x();
 </script>
 
 </html>
